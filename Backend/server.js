@@ -134,7 +134,7 @@ async function main(inputValue, inputType = 'chat', outputType = 'chat', stream 
         const firstComponentOutputs = flowOutputs.outputs[0];
         const output = firstComponentOutputs.outputs.message;
 
-        // console.log("Final Output:", output.message.text);
+        console.log("Final Output:", output.message.text);
         return output.message.text;
     }
   } catch (error) {

@@ -21,9 +21,15 @@ EchoMind is an **AI-powered voice assistant** that **combines generative AI and 
 ✅ **Highly scalable** – can be integrated into **voice assistants, customer support bots, or accessibility tools**.  
 
 ## What problem does it solve?
-🚀 EchoMind **solves a real problem**—traditional TTS systems lack intelligence, and most chatbots lack **natural speech synthesis**. By **merging LLM intelligence with voice synthesis**, EchoMind creates a truly **conversational AI**.  
+Traditional **TTS models are static** — they don’t "think." AI chatbots, on the other hand, **lack natural voice responses**. **EchoMind bridges this gap** by combining both, making it a **hybrid AI assistant** that can:  
+- **Answer questions naturally**  
+- **Support users with disabilities (accessibility use case)**  
+- **Enhance virtual assistants and customer support systems**  
 
-This **hybrid approach** makes it more than just a **TTS tool**—it’s a **fully interactive voice-based AI assistant** that can be expanded into multiple domains like **customer service, accessibility tools, or personal AI companions**.  
+## Future scope 
+- **Real-time streaming voice output** (WebSockets instead of Blob playback).  
+- **A mobile-friendly UI** for a more seamless experience.  
+- **Multi-language support** (since ElevenLabs supports multiple languages).
 
 ## 🏗️ Tech Stack  
 - **Groq LLM** - Generates intelligent responses before TTS.  
