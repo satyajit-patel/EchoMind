@@ -143,24 +143,24 @@ async function main(inputValue, inputType = 'chat', outputType = 'chat', stream 
 }
 
 app.post("/generate-voice", async (req, res) => {
-  const { userText, voiceType } = req.body;
+    try {
+        const { userText, voiceType } = req.body;
 
-  if (!voices[voiceType]) {
-      return res.status(400).json({error: "Invalid voice type selected."});
-  }
+        if (!voices[voiceType]) {
+            return res.status(400).json({ error: "Invalid voice type selected." });
+        }
 
-  const responseText = await main(userText);
+        const responseText = await main(userText);
+        const audioStream = await convertTextToSpeech(responseText, voices[voiceType]);
 
-  try {
-      const audioStream = await convertTextToSpeech(responseText, voices[voiceType]);
-
-      res.setHeader("Content-Type", "audio/mpeg"); // Set correct audio header
-      audioStream.pipe(res); // Stream directly to client
-  } catch (error) {
-      console.error("Error processing request:", error);
-      res.status(500).json({ error: "Error generating speech." });
-  }
+        res.setHeader("Content-Type", "audio/mpeg"); // Set correct audio header
+        audioStream.pipe(res); // Stream directly to client
+    } catch (error) {
+        console.error("Error processing request:", error.message || error);
+        res.status(500).json({ error: "Something went wrong. Please try again later." });
+    }
 });
+
 
 app.get("/", (req, res) => {
     res.send("Server is UP");

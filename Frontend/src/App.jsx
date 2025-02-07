@@ -25,6 +25,10 @@ const App = () => {
                 { responseType: "blob" }
             );
 
+            // const URL = `${import.meta.env.VITE_URL}/generate-voice`;
+            // console.log(`****${URL}****`);
+            // const response = await axios.post(URL, {userText: text, voiceType}, {responseType: "blob"});
+
             const audioBlob = new Blob([response.data], { type: "audio/mp3" });
             setAudioSrc(URL.createObjectURL(audioBlob));
         } catch (error) {
