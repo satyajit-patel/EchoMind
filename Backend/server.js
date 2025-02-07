@@ -153,7 +153,8 @@ app.post("/generate-voice", async (req, res) => {
         const responseText = await main(userText);
         const audioStream = await convertTextToSpeech(responseText, voices[voiceType]);
 
-        res.setHeader("Content-Type", "audio/mpeg"); // Set correct audio header
+        res.setHeader("Content-Type", "audio/mpeg");
+        res.setHeader("Access-Control-Allow-Origin", "*"); // Ensure CORS header is set
         audioStream.pipe(res); // Stream directly to client
     } catch (error) {
         console.error("Error processing request:", error.message || error);
