@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -10,30 +11,30 @@ const App = () => {
 
     const handleGenerateVoice = async (e) => {
         e.preventDefault();
-        setError(null); // Clear previous errors
-
+        setError(null);
+        setAudioSrc(null);
+    
         if (!text.trim()) {
-            alert("Please enter text before generating voice.");
+            setError("Please enter text before generating voice.");
             return;
         }
-
+    
         setLoading(true);
         try {
-            // const response = await axios.post(
-            //     "http://localhost:5000/generate-voice", 
-            //     { userText: text, voiceType }, 
-            //     { responseType: "blob" }
-            // );
-
-            const URL = `${import.meta.env.VITE_URL}/generate-voice`;
-            console.log(`****${URL}****`);
-            const response = await axios.post(URL, {userText: text, voiceType}, {responseType: "blob"});
-
-            const audioBlob = new Blob([response.data], { type: "audio/mp3" });
-            setAudioSrc(URL.createObjectURL(audioBlob));
+            const myURL = `http://localhost:5000/generate-voice`;
+            const response = await axios.post(myURL, { 
+                userText: text, 
+                voiceType 
+            }, {
+                responseType: "blob" // Ensure proper handling of binary data
+            });
+    
+            const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
+            const newAudioSrc = URL.createObjectURL(audioBlob);
+            setAudioSrc(newAudioSrc);
         } catch (error) {
-            console.error("Error generating voice:", error);
-            setError("Something went wrong. Please try again.");
+            const errorMessage = error.response?.data?.error || error.message;
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }
@@ -47,7 +48,7 @@ const App = () => {
             <div className="bg-gray-800 p-6 rounded-xl shadow-xl w-full max-w-lg transition-all hover:scale-105 hover:shadow-2xl">
                 <form onSubmit={handleGenerateVoice} className="space-y-4">
                     <textarea
-                        className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                        className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                         rows="4"
                         value={text}
                         onChange={(e) => setText(e.target.value)}
@@ -56,7 +57,7 @@ const App = () => {
                     />
 
                     <select
-                        className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                        className="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                         value={voiceType}
                         onChange={(e) => setVoiceType(e.target.value)}
                     >
@@ -75,25 +76,9 @@ const App = () => {
                     >
                         {loading ? (
                             <>
-                                <svg
-                                    className="w-5 h-5 mr-2 animate-spin"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <circle
-                                        className="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                    ></circle>
-                                    <path
-                                        className="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8v8H4z"
-                                    ></path>
+                                <svg className="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                                 </svg>
                                 Generating...
                             </>
@@ -105,7 +90,7 @@ const App = () => {
             </div>
 
             {error && (
-                <div className="mt-4 bg-red-500 text-white p-3 rounded-lg shadow-md w-full max-w-lg">
+                <div className="mt-4 bg-red-300 text-white p-3 rounded-lg shadow-md w-full max-w-lg">
                     ❌ {error}
                 </div>
             )}
