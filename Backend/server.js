@@ -13,12 +13,6 @@ const Groq = require("groq-sdk");
 
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 
-const APPLICATION_TOKEN = process.env.YOUR_APPLICATION_TOKEN;
-if (!ELEVENLABS_API_KEY || !APPLICATION_TOKEN) {
-    console.error("Missing API keys. Check .env file.");
-    process.exit(1);
-}
-
 const client = new ElevenLabsClient({ apiKey: ELEVENLABS_API_KEY });
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY});
 
@@ -61,7 +55,6 @@ async function getGroqChatCompletion(msg) {
     });
 }
 
-// server.js (backend)
 async function main(msg) {
     try {
         const chatCompletion = await getGroqChatCompletion(msg);

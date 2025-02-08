@@ -21,7 +21,8 @@ const App = () => {
     
         setLoading(true);
         try {
-            const myURL = `http://localhost:5000/generate-voice`;
+            // const myURL = `http://localhost:5000/generate-voice`;
+            const myURL = `${import.meta.env.VITE_URL}/generate-voice`;
             const response = await axios.post(myURL, { 
                 userText: text, 
                 voiceType 
